@@ -242,6 +242,7 @@ void MainWindow::updateSpeed()
 {
     double totalSpeed=0;
     int totalThreads=0;
+
     QMapIterator<int, double> iter(threadSpeed);
     while(iter.hasNext())
     {
@@ -250,6 +251,7 @@ void MainWindow::updateSpeed()
         totalThreads++;
     }
 
+    // If all threads haven't reported the hash speed yet, make an assumption
     if (totalThreads != initThreads)
     {
         totalSpeed = (totalSpeed/totalThreads)*initThreads;
@@ -311,6 +313,7 @@ void MainWindow::reportToList(QString msg, int type, QString time)
     ui->list->scrollToBottom();
 }
 
+// Function for fetching the
 QString MainWindow::getTime(QString time)
 {
     if (time.contains("["))
@@ -318,7 +321,7 @@ QString MainWindow::getTime(QString time)
         time.resize(21);
         time.remove("[");
         time.remove("]");
-        time.remove(1,11);
+        time.remove(0,11);
 
         return time;
     }
