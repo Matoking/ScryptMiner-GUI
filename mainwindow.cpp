@@ -313,7 +313,7 @@ void MainWindow::reportToList(QString msg, int type, QString time)
     ui->list->scrollToBottom();
 }
 
-// Function for fetching the
+// Function for fetching the time
 QString MainWindow::getTime(QString time)
 {
     if (time.contains("["))
