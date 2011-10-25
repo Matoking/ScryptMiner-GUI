@@ -87,7 +87,11 @@ void MainWindow::startMining()
 
     initThreads = ui->threadsBox->currentText().toInt();
 
+#ifdef WIN32
     QString program = "minerd";
+#else
+    QString program = "./minerd";
+#endif
 
     minerProcess->start(program,args);
     minerProcess->waitForStarted(-1);
