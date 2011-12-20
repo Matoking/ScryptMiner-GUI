@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setFixedSize(400, 420);
+    setFixedSize(400, 460);
 
     checkSettings();
 
@@ -50,6 +50,13 @@ void MainWindow::startPressed()
     {
         startMining();
         ui->startButton->setText("Stop Mining");
+        ui->threadsBox->setDisabled(true);
+        ui->scantimeLine->setDisabled(true);
+        ui->rpcServerLine->setDisabled(true);
+        ui->usernameLine->setDisabled(true);
+        ui->passwordLine->setDisabled(true);
+        ui->portLine->setDisabled(true);
+        ui->parametersLine->setDisabled(true);
         minerActive = true;
     }
     else
@@ -57,6 +64,13 @@ void MainWindow::startPressed()
         stopMining();
         ui->startButton->setText("Start Mining");
         minerActive = false;
+        ui->threadsBox->setDisabled(false);
+        ui->scantimeLine->setDisabled(false);
+        ui->rpcServerLine->setDisabled(false);
+        ui->usernameLine->setDisabled(false);
+        ui->passwordLine->setDisabled(false);
+        ui->portLine->setDisabled(false);
+        ui->parametersLine->setDisabled(false);
     }
 
 }
@@ -76,6 +90,7 @@ void MainWindow::startMining()
     args << "--userpass" << userpassLine.toAscii();
     args << "--threads" << ui->threadsBox->currentText().toAscii();
     args << "-P";
+    args << ui->parametersLine->text().toAscii();
 
     threadSpeed.clear();
 
@@ -134,14 +149,20 @@ void MainWindow::checkSettings()
 
     if (settings.value("scantime").isValid())
         ui->scantimeLine->setText(settings.value("scantime").toString());
+    else
+        ui->scantimeLine->setText("15");
+
     if (settings.value("url").isValid())
         ui->rpcServerLine->setText(settings.value("url").toString());
     if (settings.value("username").isValid())
         ui->usernameLine->setText(settings.value("username").toString());
     if (settings.value("password").isValid())
         ui->passwordLine->setText(settings.value("password").toString());
+
     if (settings.value("port").isValid())
         ui->portLine->setText(settings.value("port").toString());
+    else
+        ui->portLine->setText("9332");
 }
 
 void MainWindow::readProcessOutput()
@@ -175,7 +196,7 @@ void MainWindow::readProcessOutput()
 
             else if (line.contains("The requested URL returned error: 403"))
                 reportToList("Couldn't connect. Try checking your username and password.", ERROR, NULL);
-            else if (line.contains("thread ") && line.contains("khash/sec"))
+            else if (line.contains("thread ") && line.contains("khash/s"))
             {
                 QString threadIDstr = line.at(line.indexOf("thread ")+7);
                 int threadID = threadIDstr.toInt();

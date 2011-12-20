@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>420</height>
+    <height>460</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,9 +24,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>210</y>
+      <y>260</y>
       <width>381</width>
-      <height>181</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="autoScrollMargin">
@@ -49,7 +49,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>RPC Username</string>
+     <string>Username</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="usernameLine">
@@ -82,7 +82,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>RPC Password</string>
+     <string>Password</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="portLine">
@@ -270,7 +270,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>430</y>
       <width>381</width>
       <height>31</height>
      </rect>
@@ -297,6 +297,29 @@
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="parametersLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Additional parameters</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="parametersLine">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>381</width>
+      <height>20</height>
+     </rect>
     </property>
    </widget>
   </widget>
