@@ -3,12 +3,18 @@
 
 #include <QMainWindow>
 
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkRequest>
+
 #include <QProcess>
 #include <QTime>
 #include <QTimer>
 #include <QStringList>
 #include <QMap>
 #include <QSettings>
+
+#include "json.h"
 
 // Log types
 #define STARTED 0
@@ -32,11 +38,14 @@ public:
 
     bool minerActive;
 
+    QNetworkAccessManager *networkManager;
+
     QProcess *minerProcess;
 
     QMap<int, double> threadSpeed;
 
     QTimer *readTimer;
+    QTimer *poolTimer;
 
     int acceptedShares;
     int rejectedShares;
@@ -49,10 +58,16 @@ public:
 public slots:
     void startPressed();
 
+    QStringList getArgs();
+
     void startMining();
     void stopMining();
 
+    void resizeElements();
+
     void updateSpeed();
+
+    void updatePoolData();
 
     void checkSettings();
     void saveSettings();
@@ -63,6 +78,8 @@ public slots:
 
     void minerError(QProcess::ProcessError);
     void minerFinished(int, QProcess::ExitStatus);
+
+    void poolDataLoaded(QNetworkReply*);
 
     void readProcessOutput();
 

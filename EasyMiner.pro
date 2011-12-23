@@ -4,15 +4,21 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 TARGET = ScryptMiner GUI
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    poolparse.cpp \
+    json.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    poolparse.h \
+    json.h
 
 FORMS    += mainwindow.ui
+
+

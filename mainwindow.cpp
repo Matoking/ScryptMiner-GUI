@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "poolparse.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    networkManager = new QNetworkAccessManager(this);
 
     setFixedSize(400, 460);
 
@@ -17,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     minerProcess->setProcessChannelMode(QProcess::MergedChannels);
 
     readTimer = new QTimer(this);
+    poolTimer = new QTimer(this);
+
+    poolTimer->setInterval(60000);
+    poolTimer->setSingleShot(false);
+    poolTimer->start();
 
     acceptedShares = 0;
     rejectedShares = 0;
@@ -27,8 +36,11 @@ MainWindow::MainWindow(QWidget *parent) :
     initThreads = 0;
 
     connect(readTimer, SIGNAL(timeout()), this, SLOT(readProcessOutput()));
+    connect(poolTimer, SIGNAL(timeout()), this, SLOT(updatePoolData()));
 
     connect(ui->startButton, SIGNAL(pressed()), this, SLOT(startPressed()));
+    connect(ui->updateButton, SIGNAL(pressed()), this, SLOT(updatePoolData()));
+
     connect(minerProcess, SIGNAL(started()), this, SLOT(minerStarted()));
     connect(minerProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(minerError(QProcess::ProcessError)));
     connect(minerProcess, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(minerFinished(int, QProcess::ExitStatus)));
@@ -42,6 +54,22 @@ MainWindow::~MainWindow()
     saveSettings();
 
     delete ui;
+}
+
+void MainWindow::resizeElements()
+{
+    if (minerActive == true)
+    {
+        ui->output->setFixedHeight(355);
+        ui->list->setFixedHeight(355);
+        ui->poolData->setFixedHeight(250);
+    }
+    else if (minerActive == false)
+    {
+        ui->output->setFixedHeight(145);
+        ui->list->setFixedHeight(145);
+        ui->poolData->setFixedHeight(80);
+    }
 }
 
 void MainWindow::startPressed()
@@ -58,6 +86,10 @@ void MainWindow::startPressed()
         ui->portLine->setDisabled(true);
         ui->parametersLine->setDisabled(true);
         minerActive = true;
+        ui->tabWidget->move(ui->tabWidget->x(), 52);
+        ui->tabWidget->setFixedHeight(380);
+        ui->settingsFrame->setVisible(false);
+        resizeElements();
     }
     else
     {
@@ -71,11 +103,15 @@ void MainWindow::startPressed()
         ui->passwordLine->setDisabled(false);
         ui->portLine->setDisabled(false);
         ui->parametersLine->setDisabled(false);
+        ui->tabWidget->move(-1,260);
+        ui->tabWidget->setFixedHeight(170);
+        ui->settingsFrame->setVisible(true);
+        resizeElements();
     }
 
 }
 
-void MainWindow::startMining()
+QStringList MainWindow::getArgs()
 {
     QStringList args;
     QString url = ui->rpcServerLine->text();
@@ -91,6 +127,13 @@ void MainWindow::startMining()
     args << "--threads" << ui->threadsBox->currentText().toAscii();
     args << "-P";
     args << ui->parametersLine->text().toAscii();
+
+    return args;
+}
+
+void MainWindow::startMining()
+{
+    QStringList args = getArgs();
 
     threadSpeed.clear();
 
@@ -133,6 +176,8 @@ void MainWindow::saveSettings()
     settings.setValue("username", ui->usernameLine->text());
     settings.setValue("password", ui->passwordLine->text());
     settings.setValue("port", ui->portLine->text());
+    settings.setValue("miningPoolIndex", ui->poolBox->currentIndex());
+    settings.setValue("poolApiKey", ui->apiKeyLine->text());
 
     settings.sync();
 }
@@ -163,6 +208,11 @@ void MainWindow::checkSettings()
         ui->portLine->setText(settings.value("port").toString());
     else
         ui->portLine->setText("9332");
+
+    if (settings.value("miningPoolIndex").isValid())
+        ui->poolBox->setCurrentIndex(settings.value("miningPoolIndex").toInt());
+    if (settings.value("poolApiKey").isValid())
+        ui->apiKeyLine->setText(settings.value("poolApiKey").toString());
 }
 
 void MainWindow::readProcessOutput()
@@ -182,6 +232,14 @@ void MainWindow::readProcessOutput()
         for (i=0; i<list.size(); i++)
         {
             QString line = list.at(i);
+
+            // Ignore protocol dump
+            if (!line.startsWith("[") || line.contains("JSON protocol") || line.contains("HTTP hdr"))
+                continue;
+
+            if (line.contains("Long-polling activated for"))
+                reportToList("LONGPOLL activated", LONGPOLL, getTime(line));
+
             if (line.contains("PROOF OF WORK RESULT: true"))
                 reportToList("Share accepted", SHARE_SUCCESS, getTime(line));
 
@@ -215,6 +273,17 @@ void MainWindow::readProcessOutput()
 
                 updateSpeed();
             }
+
+            if (line.isEmpty() == false)
+                ui->output->append(QString("%1").arg(line));
+        }
+
+        if (ui->output->toPlainText().length() > 4000)
+        {
+            QString text = ui->output->toPlainText();
+            text.remove(0, text.length() - 4000);
+            ui->output->setText(text);
+            ui->output->scroll(0,99999);
         }
     }
 }
@@ -260,7 +329,16 @@ void MainWindow::minerFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
 void MainWindow::minerStarted()
 {
-    reportToList("Miner started. It usually takes a minute until the program starts reporting information.", STARTED, NULL);
+    QString argString = "";
+    QStringList args = getArgs();
+
+    int i;
+    for (i=0; i<=args.length()-1; i++)
+    {
+        argString.append(args[i]);
+        argString.append(" ");
+    }
+    reportToList(QString("Miner started. It usually takes a minute until the program starts reporting information. Parameters: %1").arg(argString), STARTED, NULL);
 }
 
 void MainWindow::updateSpeed()
@@ -297,6 +375,45 @@ void MainWindow::updateSpeed()
         ui->mineSpeedLabel->setText(QString("~%1 khash/sec - %2 thread(s)").arg(speedString, threadsString));
 
     ui->shareCount->setText(QString("Accepted: %1 (%3) - Rejected: %2 (%4)").arg(acceptedString, rejectedString, roundAcceptedString, roundRejectedString));
+}
+
+void MainWindow::updatePoolData()
+{
+    QString url = PoolParse::getURL(ui->poolBox->currentText(), ui->apiKeyLine->text());
+
+    if (ui->apiKeyLine->text().isEmpty() == false)
+    {
+        networkManager->get(QNetworkRequest(QUrl(url)));
+
+        connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(poolDataLoaded(QNetworkReply*)));
+    }
+}
+
+void MainWindow::poolDataLoaded(QNetworkReply *data)
+{
+    QString poolDataString;
+
+    QByteArray replyBytes = data->readAll();
+    QString replyString = QString::fromUtf8(replyBytes);
+
+    QVariantMap replyMap;
+    bool parseSuccess;
+
+    replyMap = Json::parse(replyString, parseSuccess).toMap();
+
+    if (parseSuccess == true)
+    {
+        poolDataString = PoolParse::parseData(ui->poolBox->currentText(), replyMap);
+    }
+    else
+    {
+        poolDataString = "Couldn't update mining pool data.";
+    }
+
+    ui->poolData->setText(poolDataString);
+
+    disconnect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(poolDataLoaded(QNetworkReply*)));
+
 }
 
 void MainWindow::reportToList(QString msg, int type, QString time)
