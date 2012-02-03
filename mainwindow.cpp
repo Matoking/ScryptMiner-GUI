@@ -9,6 +9,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Create system tray icon
+    trayIcon = new QSystemTrayIcon(this);
+
+    inactiveIcon.addFile(":/icons/inactiveIcon");
+    activeIcon.addFile(":/icons/activeIcon");
+
+    trayIcon->setIcon(inactiveIcon);
+
+    this->setWindowIcon(QIcon(":/icons/icon"));
+
+    createTrayActions();
+
     networkManager = new QNetworkAccessManager(this);
 
     setFixedSize(400, 460);
@@ -38,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(readTimer, SIGNAL(timeout()), this, SLOT(readProcessOutput()));
     connect(poolTimer, SIGNAL(timeout()), this, SLOT(updatePoolData()));
 
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+
     connect(ui->startButton, SIGNAL(pressed()), this, SLOT(startPressed()));
     connect(ui->updateButton, SIGNAL(pressed()), this, SLOT(updatePoolData()));
 
@@ -45,6 +59,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(minerProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(minerError(QProcess::ProcessError)));
     connect(minerProcess, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(minerFinished(int, QProcess::ExitStatus)));
     connect(minerProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readProcessOutput()));
+
+    // Check if we got a --automine argument
+    if (qApp->arguments().contains("--automine") || qApp->arguments().contains("-m"))
+    {
+        hideMainWindow();
+        startMining();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -54,6 +75,42 @@ MainWindow::~MainWindow()
     saveSettings();
 
     delete ui;
+}
+
+void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+        showMainWindow();
+    else
+        return;
+}
+
+void MainWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::WindowStateChange)
+    {
+        if (isMinimized())
+            hideMainWindow();
+        else
+            showMainWindow();
+    }
+    QMainWindow::changeEvent(e);
+}
+
+void MainWindow::createTrayActions()
+{
+    QMenu *trayMenu = new QMenu();
+
+    QAction *openAction = new QAction("Open", trayMenu);
+    QAction *exitAction = new QAction("Exit", trayMenu);
+
+    trayMenu->addAction(openAction);
+    trayMenu->addAction(exitAction);
+
+    connect(openAction, SIGNAL(triggered()), this, SLOT(showMainWindow()));
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+    trayIcon->setContextMenu(trayMenu);
 }
 
 void MainWindow::resizeElements()
@@ -72,42 +129,29 @@ void MainWindow::resizeElements()
     }
 }
 
+void MainWindow::showMainWindow()
+{
+    setParent(NULL, Qt::Window);
+    showNormal();
+    trayIcon->hide();
+}
+
+void MainWindow::hideMainWindow()
+{
+    hide();
+    trayIcon->show();
+
+    // Hiding the window from the taskbar
+    QWidget *tmp = new QWidget();
+    setParent(tmp, Qt::SubWindow);
+}
+
 void MainWindow::startPressed()
 {
     if (minerActive == false)
-    {
         startMining();
-        ui->startButton->setText("Stop Mining");
-        ui->threadsBox->setDisabled(true);
-        ui->scantimeLine->setDisabled(true);
-        ui->rpcServerLine->setDisabled(true);
-        ui->usernameLine->setDisabled(true);
-        ui->passwordLine->setDisabled(true);
-        ui->portLine->setDisabled(true);
-        ui->parametersLine->setDisabled(true);
-        minerActive = true;
-        ui->tabWidget->move(ui->tabWidget->x(), 52);
-        ui->tabWidget->setFixedHeight(380);
-        ui->settingsFrame->setVisible(false);
-        resizeElements();
-    }
     else
-    {
         stopMining();
-        ui->startButton->setText("Start Mining");
-        minerActive = false;
-        ui->threadsBox->setDisabled(false);
-        ui->scantimeLine->setDisabled(false);
-        ui->rpcServerLine->setDisabled(false);
-        ui->usernameLine->setDisabled(false);
-        ui->passwordLine->setDisabled(false);
-        ui->portLine->setDisabled(false);
-        ui->parametersLine->setDisabled(false);
-        ui->tabWidget->move(-1,260);
-        ui->tabWidget->setFixedHeight(170);
-        ui->settingsFrame->setVisible(true);
-        resizeElements();
-    }
 
 }
 
@@ -133,6 +177,21 @@ QStringList MainWindow::getArgs()
 
 void MainWindow::startMining()
 {
+    ui->startButton->setText("Stop Mining");
+    ui->threadsBox->setDisabled(true);
+    ui->scantimeLine->setDisabled(true);
+    ui->rpcServerLine->setDisabled(true);
+    ui->usernameLine->setDisabled(true);
+    ui->passwordLine->setDisabled(true);
+    ui->portLine->setDisabled(true);
+    ui->parametersLine->setDisabled(true);
+    minerActive = true;
+    ui->tabWidget->move(ui->tabWidget->x(), 52);
+    ui->tabWidget->setFixedHeight(380);
+    ui->settingsFrame->setVisible(false);
+    resizeElements();
+
+    trayIcon->setIcon(activeIcon);
     QStringList args = getArgs();
 
     threadSpeed.clear();
@@ -155,15 +214,33 @@ void MainWindow::startMining()
     minerProcess->waitForStarted(-1);
 
     readTimer->start(500);
+
+    trayIcon->setToolTip("Mining");
 }
 
 void MainWindow::stopMining()
 {
+    ui->startButton->setText("Start Mining");
+    minerActive = false;
+    ui->threadsBox->setDisabled(false);
+    ui->scantimeLine->setDisabled(false);
+    ui->rpcServerLine->setDisabled(false);
+    ui->usernameLine->setDisabled(false);
+    ui->passwordLine->setDisabled(false);
+    ui->portLine->setDisabled(false);
+    ui->parametersLine->setDisabled(false);
+    ui->tabWidget->move(-1,260);
+    ui->tabWidget->setFixedHeight(170);
+    ui->settingsFrame->setVisible(true);
+    resizeElements();
+
+    trayIcon->setIcon(inactiveIcon);
     reportToList("Miner stopped", 0, NULL);
     ui->mineSpeedLabel->setText("N/A");
     ui->shareCount->setText("Accepted: 0 - Rejected: 0");
     minerProcess->kill();
     readTimer->stop();
+    trayIcon->setToolTip("Not mining");
 }
 
 void MainWindow::saveSettings()
@@ -240,10 +317,10 @@ void MainWindow::readProcessOutput()
             if (line.contains("Long-polling activated for"))
                 reportToList("LONGPOLL activated", LONGPOLL, getTime(line));
 
-            if (line.contains("PROOF OF WORK RESULT: true"))
+            if (line.contains("(yay!!!)"))
                 reportToList("Share accepted", SHARE_SUCCESS, getTime(line));
 
-            else if (line.contains("PROOF OF WORK RESULT: false"))
+            else if (line.contains("(booooo)"))
                 reportToList("Share rejected", SHARE_FAIL, getTime(line));
 
             else if (line.contains("LONGPOLL detected new block"))
@@ -254,6 +331,13 @@ void MainWindow::readProcessOutput()
 
             else if (line.contains("The requested URL returned error: 403"))
                 reportToList("Couldn't connect. Try checking your username and password.", ERROR, NULL);
+            else if (line.contains("workio thread dead, exiting."))
+            {
+                reportToList("Miner exited. Restarting automatically.", ERROR, NULL);
+                stopMining();
+                startMining();
+            }
+
             else if (line.contains("thread ") && line.contains("khash/s"))
             {
                 QString threadIDstr = line.at(line.indexOf("thread ")+7);
@@ -309,6 +393,8 @@ void MainWindow::minerError(QProcess::ProcessError error)
 
     reportToList(errorMessage, ERROR, NULL);
 
+    trayIcon->showMessage("Miner encountered an error", errorMessage);
+
 }
 
 void MainWindow::minerFinished(int exitCode, QProcess::ExitStatus exitStatus)
@@ -325,6 +411,9 @@ void MainWindow::minerFinished(int exitCode, QProcess::ExitStatus exitStatus)
         default:
             exitMessage = "Miner exited abnormally.";
     }
+
+    stopMining();
+    trayIcon->showMessage("Miner stopped", exitMessage);
 }
 
 void MainWindow::minerStarted()
@@ -375,6 +464,8 @@ void MainWindow::updateSpeed()
         ui->mineSpeedLabel->setText(QString("~%1 khash/sec - %2 thread(s)").arg(speedString, threadsString));
 
     ui->shareCount->setText(QString("Accepted: %1 (%3) - Rejected: %2 (%4)").arg(acceptedString, rejectedString, roundAcceptedString, roundRejectedString));
+
+    trayIcon->setToolTip(QString("Mining at %1 khash/sec").arg(totalSpeed));
 }
 
 void MainWindow::updatePoolData()

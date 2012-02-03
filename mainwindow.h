@@ -13,6 +13,12 @@
 #include <QStringList>
 #include <QMap>
 #include <QSettings>
+#include <QEvent>
+#include <QMenu>
+#include <QDialog>
+#include <QIcon>
+
+#include <QSystemTrayIcon>
 
 #include "json.h"
 
@@ -36,6 +42,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    QIcon inactiveIcon;
+    QIcon activeIcon;
+
+    QSystemTrayIcon *trayIcon;
+
     bool minerActive;
 
     QNetworkAccessManager *networkManager;
@@ -56,14 +67,23 @@ public:
     int initThreads;
 
 public slots:
+    //
+    void changeEvent(QEvent *);
+
     void startPressed();
+    void createTrayActions();
 
     QStringList getArgs();
 
     void startMining();
     void stopMining();
 
+    // Window manipulation stuff
     void resizeElements();
+    void showMainWindow();
+    void hideMainWindow();
+
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
     void updateSpeed();
 

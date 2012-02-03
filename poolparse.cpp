@@ -13,6 +13,8 @@ QString PoolParse::getURL(QString poolName, QString apiKey)
         url = "http://www.litecoinpool.org/api?api_key=";
     else if (poolName == "OzCoin LTC Pool")
         url = "https://lc.ozco.in/api.php?api_key=";
+    else if (poolName == "Pool-X")
+        url = "http://pool-x.eu/api?api_key=";
 
     url.append(apiKey);
 
@@ -38,6 +40,10 @@ QString PoolParse::parseData(QString poolName, QVariantMap data)
         past24hRewards = userMap.value("past_24h_rewards").toDouble();
     }
     else if (poolName == "OzCoin LTC Pool")
+    {
+        unpaidRewards = data.value("current_balance").toDouble();
+    }
+    else if (poolName == "Pool-X")
     {
         unpaidRewards = data.value("current_balance").toDouble();
     }

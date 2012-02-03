@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.3.0, 2011-10-22T11:26:51. -->
+<!-- Written by Qt Creator 2.4.1, 2012-02-03T18:43:10. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -14,63 +14,24 @@
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
     <value type="QString" key="language">Cpp</value>
     <valuemap type="QVariantMap" key="value">
-     <value type="bool" key="AlignAssignments">false</value>
-     <value type="QString" key="CurrentFallback">CppGlobal</value>
-     <value type="bool" key="ExtraPaddingForConditionsIfConfusingAlign">true</value>
-     <value type="bool" key="IndentAccessSpecifiers">false</value>
-     <value type="bool" key="IndentBlockBody">true</value>
-     <value type="bool" key="IndentBlockBraces">false</value>
-     <value type="bool" key="IndentBlocksRelativeToSwitchLabels">false</value>
-     <value type="bool" key="IndentClassBraces">false</value>
-     <value type="bool" key="IndentControlFlowRelativeToSwitchLabels">true</value>
-     <value type="bool" key="IndentDeclarationsRelativeToAccessSpecifiers">true</value>
-     <value type="bool" key="IndentEnumBraces">false</value>
-     <value type="bool" key="IndentFunctionBody">true</value>
-     <value type="bool" key="IndentFunctionBraces">false</value>
-     <value type="bool" key="IndentNamespaceBody">false</value>
-     <value type="bool" key="IndentNamespaceBraces">false</value>
-     <value type="bool" key="IndentStatementsRelativeToSwitchLabels">true</value>
-     <value type="bool" key="IndentSwitchLabels">false</value>
+     <value type="QString" key="CurrentPreferences">CppGlobal</value>
     </valuemap>
    </valuemap>
-   <value type="int" key="EditorConfiguration.CodeStyle.Count">1</value>
+   <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.1">
+    <value type="QString" key="language">QmlJS</value>
+    <valuemap type="QVariantMap" key="value">
+     <value type="QString" key="CurrentPreferences">QmlJSGlobal</value>
+    </valuemap>
+   </valuemap>
+   <value type="int" key="EditorConfiguration.CodeStyle.Count">2</value>
    <value type="QByteArray" key="EditorConfiguration.Codec">System</value>
-   <value type="QString" key="EditorConfiguration.CurrentFallback">Global</value>
+   <value type="bool" key="EditorConfiguration.ConstrainTooltips">false</value>
    <value type="int" key="EditorConfiguration.IndentSize">4</value>
    <value type="bool" key="EditorConfiguration.MouseNavigation">true</value>
    <value type="int" key="EditorConfiguration.PaddingMode">1</value>
    <value type="bool" key="EditorConfiguration.ScrollWheelZooming">true</value>
-   <value type="bool" key="EditorConfiguration.SmartBackspace">false</value>
+   <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">0</value>
    <value type="bool" key="EditorConfiguration.SpacesForTabs">true</value>
-   <valuemap type="QVariantMap" key="EditorConfiguration.Tab.0">
-    <value type="QString" key="language">Cpp</value>
-    <valuemap type="QVariantMap" key="value">
-     <value type="bool" key="AutoIndent">true</value>
-     <value type="bool" key="AutoSpacesForTabs">false</value>
-     <value type="QString" key="CurrentFallback">CppGlobal</value>
-     <value type="int" key="IndentSize">4</value>
-     <value type="int" key="PaddingMode">1</value>
-     <value type="bool" key="SmartBackspace">false</value>
-     <value type="bool" key="SpacesForTabs">true</value>
-     <value type="int" key="TabKeyBehavior">0</value>
-     <value type="int" key="TabSize">8</value>
-    </valuemap>
-   </valuemap>
-   <valuemap type="QVariantMap" key="EditorConfiguration.Tab.1">
-    <value type="QString" key="language">QmlJS</value>
-    <valuemap type="QVariantMap" key="value">
-     <value type="bool" key="AutoIndent">true</value>
-     <value type="bool" key="AutoSpacesForTabs">false</value>
-     <value type="QString" key="CurrentFallback">QmlJSGlobal</value>
-     <value type="int" key="IndentSize">4</value>
-     <value type="int" key="PaddingMode">1</value>
-     <value type="bool" key="SmartBackspace">false</value>
-     <value type="bool" key="SpacesForTabs">true</value>
-     <value type="int" key="TabKeyBehavior">0</value>
-     <value type="int" key="TabSize">8</value>
-    </valuemap>
-   </valuemap>
-   <value type="int" key="EditorConfiguration.Tab.Count">2</value>
    <value type="int" key="EditorConfiguration.TabKeyBehavior">0</value>
    <value type="int" key="EditorConfiguration.TabSize">8</value>
    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
@@ -80,6 +41,10 @@
    <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
    <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
   </valuemap>
+ </data>
+ <data>
+  <variable>ProjectExplorer.Project.PluginSettings</variable>
+  <valuemap type="QVariantMap"/>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
@@ -132,12 +97,12 @@
     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.3 for Desktop - MinGW 4.4 (Qt SDK) Debug</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.4 for Desktop - MinGW 4.4 (Qt SDK) Debug</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug</value>
-    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">20</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_4_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug</value>
+    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">3</value>
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
@@ -182,16 +147,16 @@
     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.3 for Desktop - MinGW 4.4 (Qt SDK) Release</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.4 for Desktop - MinGW 4.4 (Qt SDK) Release</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">0</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Release</value>
-    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">20</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_4_for_Desktop_-_MinGW_4_4__Qt_SDK__Release</value>
+    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">3</value>
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.2">
-    <value type="QString" key="ProjectExplorer.BuildCOnfiguration.ToolChain">ProjectExplorer.ToolChain.Msvc:d:\Program Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat::C:/Program Files/Debugging Tools For Windows (x86)/cdb.exe</value>
+    <value type="QString" key="ProjectExplorer.BuildCOnfiguration.ToolChain">ProjectExplorer.ToolChain.Msvc:d:\Program Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat::C:/Program Files/Debugging Tools for Windows (x86)/cdb.exe</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qmake</value>
@@ -232,16 +197,16 @@
     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.3 for Desktop - MSVC2008 (Qt SDK) Debug</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.4 for Desktop - MSVC2008 (Qt SDK) Debug</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">2</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_3_for_Desktop_-_MSVC2008__Qt_SDK__Debug</value>
-    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">23</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_4_for_Desktop_-_MSVC2008__Qt_SDK__Debug</value>
+    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">5</value>
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.3">
-    <value type="QString" key="ProjectExplorer.BuildCOnfiguration.ToolChain">ProjectExplorer.ToolChain.Msvc:d:\Program Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat::C:/Program Files/Debugging Tools For Windows (x86)/cdb.exe</value>
+    <value type="QString" key="ProjectExplorer.BuildCOnfiguration.ToolChain">ProjectExplorer.ToolChain.Msvc:d:\Program Files\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat::C:/Program Files/Debugging Tools for Windows (x86)/cdb.exe</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">qmake</value>
@@ -282,12 +247,12 @@
     <value type="int" key="ProjectExplorer.BuildConfiguration.BuildStepListCount">2</value>
     <value type="bool" key="ProjectExplorer.BuildConfiguration.ClearSystemEnvironment">false</value>
     <valuelist type="QVariantList" key="ProjectExplorer.BuildConfiguration.UserEnvironmentChanges"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.3 for Desktop - MSVC2008 (Qt SDK) Release</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Qt 4.7.4 for Desktop - MSVC2008 (Qt SDK) Release</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4BuildConfiguration</value>
     <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildConfiguration">0</value>
-    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_3_for_Desktop_-_MSVC2008__Qt_SDK__Release</value>
-    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">23</value>
+    <value type="QString" key="Qt4ProjectManager.Qt4BuildConfiguration.BuildDirectory">D:/QtSDK/Projects/EasyMiner-build-desktop-Qt_4_7_4_for_Desktop_-_MSVC2008__Qt_SDK__Release</value>
+    <value type="int" key="Qt4ProjectManager.Qt4BuildConfiguration.QtVersionId">5</value>
     <value type="bool" key="Qt4ProjectManager.Qt4BuildConfiguration.UseShadowBuild">true</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.BuildConfigurationCount">4</value>
@@ -391,7 +356,7 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
-  <value type="QString">{965dc27b-1bb8-4220-8547-33b1a9e839be}</value>
+  <value type="QString">{4350975d-084e-4799-bea8-8c5e6d3a7ea2}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
