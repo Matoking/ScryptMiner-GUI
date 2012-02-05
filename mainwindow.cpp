@@ -165,7 +165,7 @@ QStringList MainWindow::getArgs()
     QString urlLine = QString("%1:%2").arg(url, ui->portLine->text());
     QString userpassLine = QString("%1:%2").arg(ui->usernameLine->text(), ui->passwordLine->text());
     args << "--algo" << "scrypt";
-    args << "--s" << ui->scantimeLine->text().toAscii();
+    args << "-s" << ui->scantimeLine->text().toAscii();
     args << "--url" << urlLine.toAscii();
     args << "--userpass" << userpassLine.toAscii();
     args << "--threads" << ui->threadsBox->currentText().toAscii();

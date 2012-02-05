@@ -191,6 +191,11 @@
       </item>
       <item>
        <property name="text">
+        <string>Elitist Jerks</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>OzCoin LTC Pool</string>
        </property>
       </item>

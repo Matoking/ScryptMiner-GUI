@@ -9,7 +9,6 @@ QT       += core gui network
 TARGET = ScryptMiner GUI
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     poolparse.cpp \
