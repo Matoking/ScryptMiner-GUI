@@ -255,6 +255,8 @@ void MainWindow::saveSettings()
     settings.setValue("port", ui->portLine->text());
     settings.setValue("miningPoolIndex", ui->poolBox->currentIndex());
     settings.setValue("poolApiKey", ui->apiKeyLine->text());
+    settings.setValue("sharePopup", ui->shareBox->isChecked());
+    settings.setValue("minerRestart", ui->restartBox->isChecked());
 
     settings.sync();
 }
@@ -290,6 +292,11 @@ void MainWindow::checkSettings()
         ui->poolBox->setCurrentIndex(settings.value("miningPoolIndex").toInt());
     if (settings.value("poolApiKey").isValid())
         ui->apiKeyLine->setText(settings.value("poolApiKey").toString());
+
+    if (settings.value("sharePopup").isValid())
+        ui->shareBox->setChecked(settings.value("sharePopup").toBool());
+    if (settings.value("minerRestart").isValid())
+        ui->restartBox->setChecked(settings.value("minerRestart").toBool());
 }
 
 void MainWindow::readProcessOutput()
@@ -404,15 +411,23 @@ void MainWindow::minerFinished(int exitCode, QProcess::ExitStatus exitStatus)
     {
         case QProcess::NormalExit:
             exitMessage = "Miner exited normally";
+            break;
 
         case QProcess::CrashExit:
             exitMessage = "Miner exited.";
+            if (ui->restartBox->isChecked())
+                startMining();
+            break;
 
         default:
             exitMessage = "Miner exited abnormally.";
+            if (ui->restartBox->isChecked())
+                startMining();
+            break;
     }
 
-    stopMining();
+    if (exitStatus == QProcess::NormalExit)
+        stopMining();
     trayIcon->showMessage("Miner stopped", exitMessage);
 }
 
@@ -465,7 +480,10 @@ void MainWindow::updateSpeed()
 
     ui->shareCount->setText(QString("Accepted: %1 (%3) - Rejected: %2 (%4)").arg(acceptedString, rejectedString, roundAcceptedString, roundRejectedString));
 
-    trayIcon->setToolTip(QString("Mining at %1 khash/sec").arg(totalSpeed));
+    QString tooltipString = QString("%1 kh/sec -").arg(totalSpeed);
+    tooltipString.append(QString("A:%1 - R:%2").arg(acceptedString,rejectedString));
+
+    trayIcon->setToolTip(tooltipString);
 }
 
 void MainWindow::updatePoolData()
@@ -519,6 +537,8 @@ void MainWindow::reportToList(QString msg, int type, QString time)
     {
         case SHARE_SUCCESS:
             acceptedShares++;
+            if (ui->shareBox->isChecked())
+                trayIcon->showMessage("Share found", QString("[%1] Accepted share").arg(QTime::currentTime().toString()), QSystemTrayIcon::Information, 5000);
             roundAcceptedShares++;
             updateSpeed();
             break;

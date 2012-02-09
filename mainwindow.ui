@@ -109,7 +109,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -327,6 +327,37 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="openLinks">
        <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Options</string>
+     </attribute>
+     <widget class="QCheckBox" name="shareBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>381</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Show system tray message on found share</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="restartBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>381</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Restart miner automatically after crashing</string>
       </property>
      </widget>
     </widget>
