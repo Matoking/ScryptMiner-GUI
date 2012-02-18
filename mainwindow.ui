@@ -360,6 +360,19 @@ p, li { white-space: pre-wrap; }
        <string>Restart miner automatically after crashing</string>
       </property>
      </widget>
+     <widget class="QCheckBox" name="saveOutputBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>381</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save output to a text file</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QFrame" name="settingsFrame">

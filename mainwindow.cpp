@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initThreads = 0;
 
+    outputFile = new QFile("output.txt");
+
     connect(readTimer, SIGNAL(timeout()), this, SLOT(readProcessOutput()));
     connect(poolTimer, SIGNAL(timeout()), this, SLOT(updatePoolData()));
 
@@ -70,6 +72,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    if (outputFile->isOpen())
+    {
+        outputFile->flush();
+        outputFile->close();
+    }
+
     minerProcess->kill();
 
     saveSettings();
@@ -153,6 +161,16 @@ void MainWindow::startPressed()
     else
         stopMining();
 
+}
+
+void MainWindow::recordOutput(QString text)
+{
+    if (!outputFile->isOpen())
+    {
+        outputFile->open(QIODevice::ReadWrite);
+    }
+
+    outputFile->write(text.toAscii());
 }
 
 QStringList MainWindow::getArgs()
@@ -257,6 +275,7 @@ void MainWindow::saveSettings()
     settings.setValue("poolApiKey", ui->apiKeyLine->text());
     settings.setValue("sharePopup", ui->shareBox->isChecked());
     settings.setValue("minerRestart", ui->restartBox->isChecked());
+    settings.setValue("saveOutput", ui->saveOutputBox->isChecked());
 
     settings.sync();
 }
@@ -297,6 +316,8 @@ void MainWindow::checkSettings()
         ui->shareBox->setChecked(settings.value("sharePopup").toBool());
     if (settings.value("minerRestart").isValid())
         ui->restartBox->setChecked(settings.value("minerRestart").toBool());
+    if (settings.value("saveOutput").isValid())
+        ui->saveOutputBox->setChecked(settings.value("saveOutput").toBool());
 }
 
 void MainWindow::readProcessOutput()
@@ -366,7 +387,11 @@ void MainWindow::readProcessOutput()
             }
 
             if (line.isEmpty() == false)
+            {
                 ui->output->append(QString("%1").arg(line));
+                if (ui->saveOutputBox->isChecked())
+                    recordOutput(line);
+            }
         }
 
         if (ui->output->toPlainText().length() > 4000)
@@ -374,7 +399,6 @@ void MainWindow::readProcessOutput()
             QString text = ui->output->toPlainText();
             text.remove(0, text.length() - 4000);
             ui->output->setText(text);
-            ui->output->scroll(0,99999);
         }
     }
 }

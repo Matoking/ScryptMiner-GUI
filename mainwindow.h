@@ -18,6 +18,8 @@
 #include <QDialog>
 #include <QIcon>
 
+#include <QFile>
+
 #include <QSystemTrayIcon>
 
 #include "json.h"
@@ -58,6 +60,8 @@ public:
     QTimer *readTimer;
     QTimer *poolTimer;
 
+    QFile *outputFile;
+
     int acceptedShares;
     int rejectedShares;
 
@@ -91,6 +95,8 @@ public slots:
 
     void checkSettings();
     void saveSettings();
+
+    void recordOutput(QString text);
 
     void reportToList(QString, int, QString);
 
