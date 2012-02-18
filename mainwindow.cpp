@@ -188,7 +188,7 @@ QStringList MainWindow::getArgs()
     args << "--userpass" << userpassLine.toAscii();
     args << "--threads" << ui->threadsBox->currentText().toAscii();
     args << "-P";
-    args << ui->parametersLine->text().toAscii();
+    args << ui->parametersLine->text().split(" ", QString::SkipEmptyParts);
 
     return args;
 }
