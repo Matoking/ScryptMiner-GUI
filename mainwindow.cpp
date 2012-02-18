@@ -339,7 +339,7 @@ void MainWindow::readProcessOutput()
             QString line = list.at(i);
 
             // Ignore protocol dump
-            if (!line.startsWith("[") || line.contains("JSON protocol") || line.contains("HTTP hdr"))
+            if (!line.startsWith("[") || line.contains("JSON protocol") || line.contains("HTTP hdr") || line.contains("threads started"))
                 continue;
 
             if (line.contains("Long-polling activated for"))
@@ -359,6 +359,7 @@ void MainWindow::readProcessOutput()
 
             else if (line.contains("The requested URL returned error: 403"))
                 reportToList("Couldn't connect. Try checking your username and password.", ERROR, NULL);
+
             else if (line.contains("workio thread dead, exiting."))
             {
                 reportToList("Miner exited. Restarting automatically.", ERROR, NULL);
