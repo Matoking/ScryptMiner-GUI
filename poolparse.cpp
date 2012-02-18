@@ -48,7 +48,9 @@ QString PoolParse::parseData(QString poolName, QVariantMap data)
     }
     else if (poolName == "Pool-X")
     {
-        unpaidRewards = data.value("current_balance").toDouble();
+        unpaidRewards = data.value("confirmed_rewards").toDouble();
+        paidRewards = data.value("payout_history").toDouble();
+        estimatedRewards = data.value("round_estimate").toDouble();
     }
     else if (poolName == "Elitist Jerks")
     {
