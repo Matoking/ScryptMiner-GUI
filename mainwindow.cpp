@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "poolparse.h"
+#include "qlogger.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -177,9 +178,6 @@ QStringList MainWindow::getArgs()
 {
     QStringList args;
     QString url = ui->rpcServerLine->text();
-    if (!url.contains("http://"))
-        url.prepend("http://");
-    qDebug(url.toAscii());
     QString urlLine = QString("%1:%2").arg(url, ui->portLine->text());
     QString userpassLine = QString("%1:%2").arg(ui->usernameLine->text(), ui->passwordLine->text());
     args << "--algo" << "scrypt";
@@ -188,7 +186,7 @@ QStringList MainWindow::getArgs()
     args << "--userpass" << userpassLine.toAscii();
     args << "--threads" << ui->threadsBox->currentText().toAscii();
     args << "-P";
-    args << ui->parametersLine->text().toAscii();
+    args << ui->parametersLine->text().split(" ", QString::SkipEmptyParts);
 
     return args;
 }
@@ -532,7 +530,14 @@ void MainWindow::poolDataLoaded(QNetworkReply *data)
     QVariantMap replyMap;
     bool parseSuccess;
 
+
+    QPlainTextEdit *editor = new QPlainTextEdit(this);
+    QString fileName = "logger.txt";
+    QLogger *logger = new QLogger(this, fileName, editor);
+    logger->write(replyString);
+
     replyMap = Json::parse(replyString, parseSuccess).toMap();
+
 
     if (parseSuccess == true)
     {
