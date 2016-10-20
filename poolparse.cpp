@@ -56,32 +56,32 @@ QString PoolParse::parseData(QString poolName, QVariantMap data)
 
     if (totalRewards != -1)
     {
-        QString totalString = QString("<b>Total rewards:</b><br/>%1 LTC<br/><br/>").arg(totalRewards);
+        QString totalString = QString("<b>Total rewards:</b><br/>%1 LTC<br/><br/>").arg(totalRewards,0, 'f', 12);
         message.append(totalString);
     }
     if (hashrate != -1)
     {
-        QString totalString = QString("<b>Hash Rate:</b><br/>%1 LTC<br/><br/>").arg(hashrate);
+        QString totalString = QString("<b>Hash Rate:</b><br/>%1 LTC<br/><br/>").arg(hashrate,0, 'f', 12);
         message.append(totalString);
     }
     if (estimatedRewards != -1)
     {
-        QString estString = QString("<b>Estimated rewards:</b><br/>%1 LTC<br/><br/>").arg(estimatedRewards);
+        QString estString = QString("<b>Estimated rewards:</b><br/>%1 LTC<br/><br/>").arg(estimatedRewards,0, 'f', 12);
         message.append(estString);
     }
     if (paidRewards != -1)
     {
-        QString paidString = QString("<b>Paid rewards:</b><br/>%1 LTC<br/><br/>").arg(paidRewards);
+        QString paidString = QString("<b>Paid rewards:</b><br/>%1 LTC<br/><br/>").arg(paidRewards,0, 'f', 12);
         message.append(paidString);
     }
     if (unpaidRewards != -1)
     {
-        QString unpaidString = QString("<b>Unpaid rewards:</b><br/>%1 LTC<br/><br/>").arg(unpaidRewards);
+        QString unpaidString = QString("<b>Unpaid rewards:</b><br/>%1 LTC<br/><br/>").arg(unpaidRewards,0, 'f', 12);
         message.append(unpaidString);
     }
     if (past24hRewards != -1)
     {
-        QString past24hString = QString("<b>Rewards in past 24 hours:</b><br/>%1 LTC<br/><br/>").arg(past24hRewards);
+        QString past24hString = QString("<b>Rewards in past 24 hours:</b><br/>%1 LTC<br/><br/>").arg(past24hRewards,0, 'f', 12);
         message.append(past24hString);
     }
 

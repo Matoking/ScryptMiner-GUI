@@ -111,6 +111,9 @@ public slots:
 
     QString getTime(QString);
 
+private slots:
+    void on_startButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

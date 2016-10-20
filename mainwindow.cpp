@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     networkManager = new QNetworkAccessManager(this);
 
-    setFixedSize(400, 460);
+    setFixedSize(400, 500);
 
     checkSettings();
 
@@ -203,7 +203,7 @@ void MainWindow::startMining()
     ui->parametersLine->setDisabled(true);
     minerActive = true;
     ui->tabWidget->move(ui->tabWidget->x(), 52);
-    ui->tabWidget->setFixedHeight(380);
+    ui->tabWidget->setFixedHeight(400);
     ui->settingsFrame->setVisible(false);
     resizeElements();
 
@@ -245,8 +245,8 @@ void MainWindow::stopMining()
     ui->passwordLine->setDisabled(false);
     ui->portLine->setDisabled(false);
     ui->parametersLine->setDisabled(false);
-    ui->tabWidget->move(-1,260);
-    ui->tabWidget->setFixedHeight(170);
+    ui->tabWidget->move(8,263);
+    ui->tabWidget->setFixedHeight(201);
     ui->settingsFrame->setVisible(true);
     resizeElements();
 
@@ -609,4 +609,9 @@ QString MainWindow::getTime(QString time)
     }
     else
         return NULL;
+}
+
+void MainWindow::on_startButton_clicked()
+{
+
 }
