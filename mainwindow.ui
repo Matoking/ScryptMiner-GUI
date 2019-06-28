@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>460</height>
+    <width>401</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,6 +19,13 @@
   <property name="windowTitle">
    <string>ScryptMiner GUI</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/icons/icon</normaloff>:/icons/icon</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="speedTitleLabel">
     <property name="geometry">
@@ -26,7 +33,7 @@
       <x>10</x>
       <y>0</y>
       <width>131</width>
-      <height>31</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -39,7 +46,7 @@
       <x>10</x>
       <y>20</y>
       <width>271</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -65,14 +72,18 @@
     <property name="text">
      <string>Start Mining</string>
     </property>
+    <property name="icon">
+     <iconset resource="icon.qrc">
+      <normaloff>:/icons/activeIcon</normaloff>:/icons/activeIcon</iconset>
+    </property>
    </widget>
    <widget class="QLabel" name="shareCount">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>430</y>
+      <y>470</y>
       <width>381</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -102,14 +113,32 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>-1</x>
-      <y>260</y>
-      <width>404</width>
-      <height>170</height>
+      <x>8</x>
+      <y>263</y>
+      <width>390</width>
+      <height>201</height>
      </rect>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::North</enum>
+    </property>
+    <property name="tabShape">
+     <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
      <number>0</number>
+    </property>
+    <property name="elideMode">
+     <enum>Qt::ElideNone</enum>
+    </property>
+    <property name="usesScrollButtons">
+     <bool>true</bool>
+    </property>
+    <property name="documentMode">
+     <bool>false</bool>
+    </property>
+    <property name="tabsClosable">
+     <bool>false</bool>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -118,10 +147,10 @@
      <widget class="QListWidget" name="list">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>398</width>
-        <height>145</height>
+        <x>1</x>
+        <y>1</y>
+        <width>381</width>
+        <height>180</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -131,16 +160,19 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::WinPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="lineWidth">
        <number>374</number>
       </property>
       <property name="autoScrollMargin">
        <number>100000</number>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>false</bool>
       </property>
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectItems</enum>
@@ -150,6 +182,9 @@
       </property>
       <property name="isWrapping" stdset="0">
        <bool>false</bool>
+      </property>
+      <property name="resizeMode">
+       <enum>QListView::Adjust</enum>
       </property>
       <property name="batchSize">
        <number>10</number>
@@ -165,7 +200,7 @@
        <rect>
         <x>160</x>
         <y>30</y>
-        <width>231</width>
+        <width>221</width>
         <height>20</height>
        </rect>
       </property>
@@ -182,16 +217,6 @@
       <item>
        <property name="text">
         <string>Litecoinpool.org</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Pool-X</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Elitist Jerks</string>
        </property>
       </item>
       <item>
@@ -218,7 +243,7 @@
        <rect>
         <x>160</x>
         <y>10</y>
-        <width>201</width>
+        <width>111</width>
         <height>16</height>
        </rect>
       </property>
@@ -229,8 +254,8 @@
      <widget class="QPushButton" name="updateButton">
       <property name="geometry">
        <rect>
-        <x>327</x>
-        <y>0</y>
+        <x>310</x>
+        <y>5</y>
         <width>71</width>
         <height>23</height>
        </rect>
@@ -244,8 +269,8 @@
        <rect>
         <x>10</x>
         <y>60</y>
-        <width>381</width>
-        <height>80</height>
+        <width>371</width>
+        <height>111</height>
        </rect>
       </property>
       <property name="palette">
@@ -291,6 +316,12 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -310,10 +341,10 @@ p, li { white-space: pre-wrap; }
      <widget class="QTextBrowser" name="output">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>398</width>
-        <height>145</height>
+        <x>2</x>
+        <y>3</y>
+        <width>380</width>
+        <height>171</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -323,7 +354,7 @@ p, li { white-space: pre-wrap; }
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+       <enum>QFrame::WinPanel</enum>
       </property>
       <property name="openLinks">
        <bool>false</bool>
@@ -598,6 +629,8 @@ p, li { white-space: pre-wrap; }
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
  <connections/>
 </ui>

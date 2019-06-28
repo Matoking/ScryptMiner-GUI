@@ -12,11 +12,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     poolparse.cpp \
-    json.cpp
+    json.cpp \
+    qlogger.cpp
 
 HEADERS  += mainwindow.h \
     poolparse.h \
-    json.h
+    json.h \
+    qlogger.h
 
 FORMS    += mainwindow.ui
 

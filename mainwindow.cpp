@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "poolparse.h"
+#include "qlogger.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     networkManager = new QNetworkAccessManager(this);
 
-    setFixedSize(400, 460);
+    setFixedSize(400, 500);
 
     checkSettings();
 
@@ -177,9 +178,6 @@ QStringList MainWindow::getArgs()
 {
     QStringList args;
     QString url = ui->rpcServerLine->text();
-    if (!url.contains("http://"))
-        url.prepend("http://");
-    qDebug(url.toAscii());
     QString urlLine = QString("%1:%2").arg(url, ui->portLine->text());
     QString userpassLine = QString("%1:%2").arg(ui->usernameLine->text(), ui->passwordLine->text());
     args << "--algo" << "scrypt";
@@ -205,7 +203,7 @@ void MainWindow::startMining()
     ui->parametersLine->setDisabled(true);
     minerActive = true;
     ui->tabWidget->move(ui->tabWidget->x(), 52);
-    ui->tabWidget->setFixedHeight(380);
+    ui->tabWidget->setFixedHeight(400);
     ui->settingsFrame->setVisible(false);
     resizeElements();
 
@@ -247,8 +245,8 @@ void MainWindow::stopMining()
     ui->passwordLine->setDisabled(false);
     ui->portLine->setDisabled(false);
     ui->parametersLine->setDisabled(false);
-    ui->tabWidget->move(-1,260);
-    ui->tabWidget->setFixedHeight(170);
+    ui->tabWidget->move(8,263);
+    ui->tabWidget->setFixedHeight(201);
     ui->settingsFrame->setVisible(true);
     resizeElements();
 
@@ -532,7 +530,14 @@ void MainWindow::poolDataLoaded(QNetworkReply *data)
     QVariantMap replyMap;
     bool parseSuccess;
 
+
+    QPlainTextEdit *editor = new QPlainTextEdit(this);
+    QString fileName = "logger.txt";
+    QLogger *logger = new QLogger(this, fileName, editor);
+    logger->write(replyString);
+
     replyMap = Json::parse(replyString, parseSuccess).toMap();
+
 
     if (parseSuccess == true)
     {
@@ -604,4 +609,9 @@ QString MainWindow::getTime(QString time)
     }
     else
         return NULL;
+}
+
+void MainWindow::on_startButton_clicked()
+{
+
 }
