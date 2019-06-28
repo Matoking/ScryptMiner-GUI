@@ -11,10 +11,6 @@ QString PoolParse::getURL(QString poolName, QString apiKey)
 
     if (poolName == "Litecoinpool.org")
         url = "https://www.litecoinpool.org/api?api_key=";
-    else if (poolName == "OzCoin LTC Pool")
-        url = "https://lc.ozcoin.net/api.php?api_key=";
-    else if (poolName == "Elitist Jerks")
-        url = "http://www.ejpool.info:8080/api?api_key=";
 
     url.append(apiKey);
 
